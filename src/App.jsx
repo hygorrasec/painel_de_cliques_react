@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Contador from "./components/Contador";
+import BotaoAdicionar from "./components/BotaoAdicionar";
+import BotaoZerar from "./components/BotaoZerar";
+import Mensagem from "./components/Mensagem";
+import "./index.css";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [cliques, setCliques] = useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    // Usa a forma "callback" para sempre somar a partir do valor mais recente
+    const adicionarClique = () => setCliques((prev) => prev + 1);
+    const zerarCliques = () => setCliques(0);
+
+    return (
+        <main className="painel">
+            <h1>Painel de Cliques</h1>
+
+            <Contador total={cliques} />
+
+            <div className="acoes">
+                <BotaoAdicionar onAdicionar={adicionarClique} />
+                <BotaoZerar onZerar={zerarCliques} disabled={cliques === 0} />
+            </div>
+
+            <Mensagem
+                condicao={cliques >= 10}
+                textoOk="Parabéns! Você alcançou 10 cliques!"
+                textoDefault="Continue clicando para chegar a 10!"
+            />
+        </main>
+    );
 }
 
-export default App
+export default App;
